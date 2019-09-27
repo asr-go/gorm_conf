@@ -5,13 +5,22 @@ import (
 	"time"
 
 	"github.com/jinzhu/gorm"
+	"github.com/sirupsen/logrus"
 
 	time_utils "github.com/asr-go/utils/time"
+
+	//
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
-// Conf 配置数据库连接
-func Conf(db *gorm.DB) {
-	db.LogMode(true)
+// NewDatabase 新建数据库
+func NewDatabase(dialect string, debug bool) *gorm.DB {
+	db, err := gorm.Open("mysql", dialect)
+	if err != nil {
+		logrus.Panic("连接数据库不成功", err)
+	}
+
+	db.LogMode(debug)
 
 	//空闲
 	db.DB().SetMaxIdleConns(50)
@@ -25,6 +34,8 @@ func Conf(db *gorm.DB) {
 	db.Callback().Create().Replace("gorm:update_time_stamp", updateTimeStampForCreateCallback)
 	db.Callback().Update().Replace("gorm:update_time_stamp", updateTimeStampForUpdateCallback)
 	db.Callback().Delete().Replace("gorm:delete", deleteCallback)
+
+	return db
 }
 
 // 注册新建钩子在持久化之前
