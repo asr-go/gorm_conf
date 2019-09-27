@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/jinzhu/gorm"
-	"github.com/sirupsen/logrus"
 
 	time_utils "github.com/asr-go/utils/time"
 
@@ -14,10 +13,10 @@ import (
 )
 
 // NewDatabase 新建数据库
-func NewDatabase(dialect string, debug bool) *gorm.DB {
+func NewDatabase(dialect string, debug bool) (*gorm.DB, error) {
 	db, err := gorm.Open("mysql", dialect)
 	if err != nil {
-		logrus.Panic("连接数据库不成功", err)
+		return nil, err
 	}
 
 	db.LogMode(debug)
@@ -35,7 +34,7 @@ func NewDatabase(dialect string, debug bool) *gorm.DB {
 	db.Callback().Update().Replace("gorm:update_time_stamp", updateTimeStampForUpdateCallback)
 	db.Callback().Delete().Replace("gorm:delete", deleteCallback)
 
-	return db
+	return db, nil
 }
 
 // 注册新建钩子在持久化之前
