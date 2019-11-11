@@ -5,7 +5,9 @@ import (
 	"time"
 
 	"github.com/jinzhu/gorm"
+	"github.com/sirupsen/logrus"
 
+	"github.com/asr-go/gorm_conf/logging"
 	time_utils "github.com/asr-go/utils/time"
 
 	//
@@ -20,6 +22,7 @@ func NewDatabase(dialect string, debug bool) (*gorm.DB, error) {
 	}
 
 	db.LogMode(debug)
+	db.SingularTable(true)
 
 	//空闲
 	db.DB().SetMaxIdleConns(50)
@@ -33,6 +36,8 @@ func NewDatabase(dialect string, debug bool) (*gorm.DB, error) {
 	db.Callback().Create().Replace("gorm:update_time_stamp", updateTimeStampForCreateCallback)
 	db.Callback().Update().Replace("gorm:update_time_stamp", updateTimeStampForUpdateCallback)
 	db.Callback().Delete().Replace("gorm:delete", deleteCallback)
+
+	db.SetLogger(logging.New(logrus.StandardLogger()))
 
 	return db, nil
 }
