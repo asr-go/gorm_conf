@@ -23,3 +23,7 @@
 ## Version 1.0.3 (2019-11-12)
 
 - *int64 -> sql.NullInt64
+
+## Version 1.0.4 (2019-12-01)
+
+- 修改logrus日志配置信息
