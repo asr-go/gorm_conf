@@ -5,7 +5,7 @@ import (
 
 	"github.com/jinzhu/gorm"
 
-	"github.com/asr-go/gorm_conf/logging"
+	"github.com/asr-go/gormconf/logging"
 
 	//
 	_ "github.com/jinzhu/gorm/dialects/mysql"

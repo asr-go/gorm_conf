@@ -9,7 +9,7 @@ package main
 
 import(
   "github.com/jinzhu/gorm"
-  gorm_conf "github.com/asr-go/gorm_conf"
+  gormconf "github.com/asr-go/gormconf"
 
   //
   _ "github.com/jinzhu/gorm/dialects/mysql"
@@ -22,6 +22,6 @@ func main() {
   if err != nil {
     panic("连接数据库不成功", err)
   }
-  gorm_conf.Conf(db)
+  gormconf.Conf(db)
 }
 ```

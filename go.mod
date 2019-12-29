@@ -1,6 +1,6 @@
-module github.com/asr-go/gorm_conf
+module github.com/asr-go/gormconf
 
-go 1.12
+go 1.13
 
 require (
 	github.com/asr-go/snowflake v0.3.2
